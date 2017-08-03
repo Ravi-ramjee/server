@@ -1,19 +1,19 @@
-import socket
+import requests
+# from BaseHTTPServer import
 
 
-HOST = socket.gethostbyname(socket.gethostname())
-PORT = 54002
-BUFF_SIZE = 4069
-
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((HOST, PORT))
+SEND = "https://api.groupme.com/v3/bots/post"
+RECV = "https://friedchicken.mynetgear.com"
+BOT_ID = "f87bbd9f6df8ce5e1cc15e677a"
 
 
-try:
-    s.listen(1)
-    host, addr = s.accept()
-    print(host.recv(BUFF_SIZE).decode())
-except:
-    print("Error")
-finally:
-    s.close()
+data = {
+    "bot_id": BOT_ID,
+    "text": "this is an automated post",
+}
+
+requests.post(SEND, data)
+
+
+
+
