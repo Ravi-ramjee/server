@@ -3,6 +3,7 @@ import requests
 
 
 API_URL = "https://api.groupme.com/v3/bots/post"
+CHAR_LIMIT = 1000
 
 
 class GroupMeBot (object):
@@ -16,7 +17,16 @@ class GroupMeBot (object):
         requests.post(self.postTo, msg1)
 
     def print(self, text):
-        self.post({"text": str(text)})
+        text = str(text)
+        while text:
+            if len(text) >= CHAR_LIMIT:
+                head = text[:CHAR_LIMIT]
+                self.post({"text": head})
+                text = text[CHAR_LIMIT:]
+            else:
+                self.post({"text": text})
+                break
+
 
     def onPost(self, msg):
         pass

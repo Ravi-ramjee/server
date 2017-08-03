@@ -45,11 +45,49 @@ class ReplBot (GroupMeBot):
                 self.commands = self.commands[1:]
 
 
-if __name__ == "main":
+if __name__ == "__main__":
+    import sys
     from flask import Flask, request
+    import google as g
 
 
-    bot = ReplBot("f87bbd9f6df8ce5e1cc15e677a", "33065426")
+    if len(sys.argv) > 1:
+        botId, ownerId, port = sys.argv[1:]
+        bot = ReplBot(sys.argv[1], sys.argv[2])
+
+        if len(sys.argv) >= 4:
+            bot.commandPrefix = sys.argv[3]
+        if len(sys.argv) >= 5:
+            bot.authPrefix = sys.argv[4]
+    else:
+        port = 54000
+        bot = ReplBot("f87bbd9f6df8ce5e1cc15e677a", "33065426") # marvin
+        #bot = ReplBot("524c2fe2165cd94a7a8f35f5b5", "33065426") # frank
+    gprint = bot.print
+
+
+    def google(query, limit=2):
+        i = 0
+        for url in g.search(query):
+            gprint(url)
+            if i >= limit - 1:
+                break
+            i += 1
+
+
+    def googleImage(query, limit=2):
+        i = 0
+        for url in g.search_images(query):
+            gprint(url)
+            if i >= limit - 1:
+                break
+            i += 1
+
+
+    def help():
+        pass
+
+
     app = Flask(__name__)
 
 
@@ -59,4 +97,4 @@ if __name__ == "main":
         return "received"
 
 
-    app.run("0.0.0.0", port=54003)
+    app.run("0.0.0.0", port=int(port))
