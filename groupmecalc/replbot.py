@@ -1,5 +1,4 @@
 from groupmebot import GroupMeBot, API_URL
-from flask import Flask, request
 
 
 class ReplBot (GroupMeBot):
@@ -46,19 +45,18 @@ class ReplBot (GroupMeBot):
                 self.commands = self.commands[1:]
 
 
+if __name__ == "main":
+    from flask import Flask, request
 
 
-bot = ReplBot("f87bbd9f6df8ce5e1cc15e677a", "33065426")
-app = Flask(__name__)
+    bot = ReplBot("f87bbd9f6df8ce5e1cc15e677a", "33065426")
+    app = Flask(__name__)
 
 
-@app.route("/", methods=["POST"])
-def onPost():
-    bot.onPost(request.json)
-    return "received"
+    @app.route("/", methods=["POST"])
+    def onPost():
+        bot.onPost(request.json)
+        return "received"
 
 
-app.run("0.0.0.0", port=54003)
-
-
-
+    app.run("0.0.0.0", port=54003)
